@@ -1,0 +1,22 @@
+services:
+  database:
+    image: mysql:8.0
+    ports:
+      - 3306:3306
+    volumes:
+      - db-data:/var/lib/mysql
+      - './docker/mysql/create-testing-database.sh:/docker-entrypoint-initdb.d/10-create-testing-database.sh'
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=filmvint
+      - MYSQL_USER=filmvint
+      - MYSQL_PASSWORD=filmvint
+  mailer:
+    image: mailhog/mailhog:latest
+    environment:
+        - MH_STORAGE=maildir
+    ports:
+        - "${MAILHOG_PORT:-8025}:8025"
+
+volumes:
+  db-data:
