@@ -7,14 +7,8 @@
 |
 */
 
+import RegisterController from '#controllers/auth/register_controller'
 import router from '@adonisjs/core/services/router'
 
-router.get('/', async () => {
-  return {
-    hello: 'world',
-  }
-})
+router.post('register', [RegisterController, 'handle'])
 
-router.post('/register', async () => {
-  console.log('registering user')
-})

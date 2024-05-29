@@ -86,7 +86,7 @@ export class Registration extends AggregateRoot<RegistrationId> {
           emailValidationToken
         )
     ).map((user) => {
-      user.emit(new RegistrationCreated(user.id))
+      user.emit(new RegistrationCreated(user._id))
 
       return user
     })
@@ -95,7 +95,7 @@ export class Registration extends AggregateRoot<RegistrationId> {
   block() {
     this._isBlocked = true
 
-    this.emit(new RegistrationBlocked(this.id))
+    this.emit(new RegistrationBlocked(this._id))
   }
 
   validateEmail(
@@ -110,7 +110,7 @@ export class Registration extends AggregateRoot<RegistrationId> {
     }
 
     this._emailValidated = true
-    this.emit(new EmailValidated(this.id))
+    this.emit(new EmailValidated(this._id))
 
     return Ok(this)
   }
@@ -121,7 +121,7 @@ export class Registration extends AggregateRoot<RegistrationId> {
 
   snapshot(): RegistrationSnapshot {
     return {
-      id: this.id.value,
+      id: this._id.value,
       email: this.email.value(),
       pseudo: this.pseudo.value(),
       password: this.password.value(),
@@ -132,7 +132,7 @@ export class Registration extends AggregateRoot<RegistrationId> {
 
   clone() {
     return new Registration(
-      new RegistrationId(this.id.value),
+      new RegistrationId(this._id.value),
       new Email(this.email.value()),
       new Pseudo(this.pseudo.value()),
       new HashedPassword(this.password.value()),

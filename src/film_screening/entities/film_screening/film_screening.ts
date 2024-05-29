@@ -52,14 +52,14 @@ export class FilmScreening extends AggregateRoot<FilmScreeningId> {
       new Date(input.startsAt)
     )
 
-    filmScreening.emit(new FilmScreeningCreated(filmScreening.id))
+    filmScreening.emit(new FilmScreeningCreated(filmScreening._id))
 
     return filmScreening
   }
 
   snapshot(): FilmScreeningSnapshot {
     return {
-      filmScreeningId: this.id.value,
+      filmScreeningId: this._id.value,
       title: this.title.value,
       cinemaBookingPrice: this.cinemaBookingPrice.value,
       seatBookingPrice: this.seatBookingPrice.value,

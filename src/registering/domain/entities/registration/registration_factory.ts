@@ -7,9 +7,9 @@ import { Email } from '#core/registering/domain/entities/registration/value_obje
 import { EmailValidationToken } from '#core/registering/domain/entities/registration/value_objects/email_validation_token'
 import { PlainPassword } from '#core/registering/domain/entities/registration/value_objects/password'
 import { Pseudo } from '#core/registering/domain/entities/registration/value_objects/pseudo'
-import { PasswordHasher } from '#core/registering/gateways/password_hasher'
-import { RegistrationGateway } from '#core/registering/gateways/registration_gateway'
-import { TrashEmailGateway } from '#core/registering/gateways/trash_email_gateway'
+import { PasswordHasher } from '#core/registering/domain/gateways/password_hasher'
+import { RegistrationGateway } from '#core/registering/domain/gateways/registration_gateway'
+import { TrashEmailGateway } from '#core/registering/domain/gateways/trash_email_gateway'
 import { Result, Err } from 'pratica'
 
 export class RegistrationFactory {
@@ -27,9 +27,9 @@ export class RegistrationFactory {
   ): Promise<Result<Registration, RegistrationException>> {
     const errors = [] as RegistrationError[]
 
-    if (await this.userGateway.emailExists(email)) {
-      errors.push({ code: 'EMAIL_ALREADY_IN_USE' })
-    }
+    // if (await this.userGateway.emailExists(email)) {
+    //   errors.push({ code: 'EMAIL_ALREADY_IN_USE' })
+    // }
 
     if (await this.userGateway.pseudoExists(pseudo)) {
       errors.push({ code: 'PSEUDO_ALREADY_IN_USE' })

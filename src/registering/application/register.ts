@@ -1,8 +1,8 @@
 import { EventPublisher } from '#core/event_publisher'
 import { Registration } from '#core/registering/domain/entities/registration/registration'
-import { RegistrationGateway } from '#core/registering/gateways/registration_gateway'
 import { RegistrationFactory } from '#core/registering/domain/entities/registration/registration_factory'
 import { RegistrationError } from '#core/registering/domain/entities/registration/registration_exception'
+import { RegistrationGateway } from '#core/registering/domain/gateways/registration_gateway'
 
 export interface RegisterProps {
   email: string
@@ -27,8 +27,10 @@ export class Register {
 
     return user.cata({
       Ok: async (_user) => {
+        console.log('Registering user')
         await this.registrationGateway.save(_user)
-
+        console.log('Registered user')
+        
         this.eventPublisher.publish([..._user.domainEvents()])
 
         presenter.userRegistered(_user)

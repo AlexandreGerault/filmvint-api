@@ -7,6 +7,7 @@ import { TrashEmailGateway } from '#core/registering/domain/gateways/trash_email
 import { AdonisPasswordHasher } from '#core/registering/infrastructure/adonis_password_haser'
 import { ApiTrashEmailChecker } from '#core/registering/infrastructure/api_trash_email_checker'
 import { LucidRegistrationGateway } from '#core/registering/infrastructure/lucid_registration_gateway'
+import { Hash } from '@adonisjs/core/hash'
 import type { ApplicationService } from '@adonisjs/core/types'
 
 export default class RegisteringProvider {
@@ -21,7 +22,7 @@ export default class RegisteringProvider {
     })
 
     this.app.container.singleton(PasswordHasher, async (resolver) => {
-      return new AdonisPasswordHasher(await resolver.make('Adonis/Core/Hash'))
+      return new AdonisPasswordHasher(await resolver.make(Hash))
     })
 
     this.app.container.singleton(TrashEmailGateway, async () => {
