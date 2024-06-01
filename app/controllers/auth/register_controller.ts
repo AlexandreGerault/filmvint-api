@@ -6,15 +6,18 @@ import { inject } from '@adonisjs/core'
 import type { HttpContext } from '@adonisjs/core/http'
 
 class ApiRegisterPresenter implements RegisterPresenter {
-  constructor(private response: HttpContext['response']) {}
+  constructor(private _response: HttpContext['response']) {}
 
   validationFailed(errors: RegistrationError[]): void {
-    console.log('validationFailed', {errors})
-    this.response.badRequest(errors)
+    this._response.badRequest(errors)
   }
 
   userRegistered(user: Registration): void {
-    this.response.created(user.snapshot())
+    this._response.created(user.snapshot())
+  }
+
+  get response() {
+    return this._response
   }
 }
 
@@ -27,6 +30,8 @@ export default class RegisterController {
 
     const presenter = new ApiRegisterPresenter(response)
 
-    this.register.execute(input, presenter)
+    await this.register.execute(input, presenter)
+
+    return presenter.response
   }
 }

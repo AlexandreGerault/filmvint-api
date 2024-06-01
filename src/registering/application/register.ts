@@ -25,12 +25,10 @@ export class Register {
   async execute(input: RegisterProps, presenter: RegisterPresenter): Promise<void> {
     const user = await this.registrationFactory.create(input.email, input.pseudo, input.password)
 
-    return user.cata({
+    await user.cata({
       Ok: async (_user) => {
-        console.log('Registering user')
         await this.registrationGateway.save(_user)
-        console.log('Registered user')
-        
+
         this.eventPublisher.publish([..._user.domainEvents()])
 
         presenter.userRegistered(_user)
@@ -39,5 +37,7 @@ export class Register {
         presenter.validationFailed(error.errors)
       },
     })
+
+    return Promise.resolve()
   }
 }

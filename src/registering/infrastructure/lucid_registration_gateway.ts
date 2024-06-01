@@ -5,11 +5,17 @@ import { Maybe } from 'pratica'
 
 export class LucidRegistrationGateway implements RegistrationGateway {
   pseudoExists(pseudo: string): Promise<boolean> {
-    return User.query().where('pseudo', pseudo).first().then((user) => user !== null)
+    return User.query()
+      .where('pseudo', pseudo)
+      .first()
+      .then((user) => user !== null)
   }
 
   emailExists(email: string): Promise<boolean> {
-    return User.query().where('email', email).first().then((user) => user !== null)
+    return User.query()
+      .where('email', email)
+      .first()
+      .then((user) => user !== null)
   }
 
   findByEmail(_: string): Promise<Maybe<Registration>> {
@@ -21,8 +27,6 @@ export class LucidRegistrationGateway implements RegistrationGateway {
     const userAlreadyExist = await this.emailExists(snapshot.email)
 
     if (!userAlreadyExist) {
-      console.log("Creating new user")
-      
       await User.create({
         id: snapshot.id,
         email: snapshot.email,
@@ -33,6 +37,9 @@ export class LucidRegistrationGateway implements RegistrationGateway {
       return
     }
 
-    console.log('Saving user', {userAlreadyExist})
+    User.query().where('email', snapshot.email).update({
+      pseudo: snapshot.pseudo,
+      password: snapshot.password,
+    })
   }
 }

@@ -10,15 +10,16 @@ import { test } from '@japa/runner'
 test.group('Lucid registration gateway', (group) => {
   group.each.setup(() => testUtils.db().truncate())
 
-  test('check if email already exists', async ({ assert }) => {
+  test('it checks if email already exists', async ({ assert }) => {
     await UserFactory.merge({ email: 'john@doe.fr' }).create()
+
     const repository = await app.container.make(RegistrationGateway)
 
     assert.isTrue(await repository.emailExists('john@doe.fr'))
     assert.isFalse(await repository.emailExists('john@doe.de'))
   })
 
-  test('check if the pseudo already exists', async ({ assert }) => {
+  test('it checks if the pseudo already exists', async ({ assert }) => {
     await UserFactory.merge({ pseudo: 'john' }).create()
     const repository = await app.container.make(RegistrationGateway)
 
@@ -26,20 +27,25 @@ test.group('Lucid registration gateway', (group) => {
     assert.isFalse(await repository.pseudoExists('doe'))
   })
 
-  test('save a registration', async ({ assert }) => {
+  test('it saves a registration', async ({ assert }) => {
     const repository = await app.container.make(RegistrationGateway)
 
     const registrationFactory = await app.container.make(RegistrationFactory)
 
-    const registration = await registrationFactory.create('john@doe.fr', 'john', 'P@ssword0?!', EmailValidationToken.of('123'))
+    const registration = await registrationFactory.create(
+      'john@doe.fr',
+      'john',
+      'P@ssword0?!',
+      EmailValidationToken.of('123')
+    )
 
-    registration.cata({
+    await registration.cata({
       Ok: async (_registration) => {
         await repository.save(_registration)
       },
-      Err: (_) => {
+      Err: (error) => {
         assert.fail('Registration should be valid')
-      }
+      },
     })
 
     const user = await User.query().first()
