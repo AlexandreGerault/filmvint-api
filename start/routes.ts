@@ -7,8 +7,8 @@
 |
 */
 
-import RegisterController from '#controllers/auth/register_controller'
 import router from '@adonisjs/core/services/router'
 
-router.post('register', [RegisterController, 'handle'])
+const RegisterController = () => import('#authentication/register/register_controller')
 
+router.post('register', [RegisterController])

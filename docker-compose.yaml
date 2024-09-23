@@ -14,9 +14,10 @@ services:
   mailer:
     image: mailhog/mailhog:latest
     environment:
-        - MH_STORAGE=maildir
+      - MH_STORAGE=maildir
     ports:
-        - "${MAILHOG_PORT:-8025}:8025"
+      - '${MAILHOG_PORT:-1025}:8025'
+      - '${MAILHOG_DASHBOARD_PORT:-8025}:8025'
 
 volumes:
   db-data:

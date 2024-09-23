@@ -14,6 +14,7 @@
     "typecheck": "tsc --noEmit"
   },
   "imports": {
+    "#authentication/*": "./app/authentication/*.js",
     "#controllers/*": "./app/controllers/*.js",
     "#core/*": "./src/*.js",
     "#exceptions/*": "./app/exceptions/*.js",
@@ -58,10 +59,12 @@
     "@adonisjs/core": "^6.9.0",
     "@adonisjs/cors": "^2.2.1",
     "@adonisjs/lucid": "^20.6.0",
+    "@adonisjs/mail": "^9.2.2",
     "@adonisjs/session": "^7.4.0",
     "@adonisjs/shield": "^8.1.1",
     "@vinejs/vine": "^2.0.0",
     "adonis-autoswagger": "^3.42.0",
+    "edge.js": "^6.2.0",
     "luxon": "^3.4.4",
     "mysql2": "^3.9.7",
     "pratica": "^2.2.0",

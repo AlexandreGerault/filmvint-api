@@ -7,7 +7,8 @@ export const UserFactory = factory
       id: faker.string.uuid(),
       email: faker.internet.email(),
       password: faker.internet.password(),
-      pseudo: faker.internet.userName()
+      firstName: faker.person.firstName(),
+      lastName: faker.person.lastName(),
     }
   })
   .build()
