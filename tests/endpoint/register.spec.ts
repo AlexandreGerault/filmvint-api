@@ -32,7 +32,7 @@ test.group('Register endpoint', (group) => {
     assert.equal(user?.firstName, 'John')
     assert.equal(user?.lastName, 'Doe')
     assert.equal(user?.email, 'john@doe.fr')
-    assert.equal(user?.email_verified_at, null)
+    assert.equal(user?.emailVerifiedAt, null)
 
     mails.assertSent(VerifyEmailMail, ({ message }) => {
       return message.hasTo('john@doe.fr') && message.hasSubject('Verify email address')
